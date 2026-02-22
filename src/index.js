@@ -2,6 +2,7 @@ import { BankBot } from "./bot.js";
 import logger from "./utils/logger.js";
 import fs from "fs-extra";
 import { config } from "./config.js";
+import { startHealthCheckServer } from "./server.js";
 
 async function bootstrap() {
   try {
@@ -9,6 +10,10 @@ async function bootstrap() {
     await fs.ensureDir(config.app.tempDir);
 
     const bot = new BankBot();
+
+    // Start health check server
+    startHealthCheckServer();
+
     await bot.start();
 
     logger.info("Bank Bot is running...");
